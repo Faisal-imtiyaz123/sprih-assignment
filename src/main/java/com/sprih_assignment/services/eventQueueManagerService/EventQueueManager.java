@@ -1,16 +1,17 @@
-package com.sprih_assignment.services;
-
+package com.sprih_assignment.services.eventQueueManagerService;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import com.sprih_assignment.dto.response.event.AddEventResponse;
 import com.sprih_assignment.models.BaseEvent;
+import com.sprih_assignment.services.eventProcessorService.EventProcessorService;
+import com.sprih_assignment.services.eventQueueManagerService.error.EventQueueManagerErrorHandler;
 import com.sprih_assignment.utils.enums.Events.EventType;
 
 import java.util.Map;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -25,11 +26,13 @@ public class EventQueueManager {
     
     private final Map<EventType, BlockingQueue<BaseEvent>> queues = new ConcurrentHashMap<>();
     private final Map<EventType, ExecutorService> executors = new ConcurrentHashMap<>();
-    private final EventProcessor eventProcessor;
+    private final EventProcessorService eventProcessor;
+    private final EventQueueManagerErrorHandler errorHandler;
     private final AtomicBoolean acceptingNewEvents = new AtomicBoolean(true);
     
-    public EventQueueManager(EventProcessor eventProcessor) {
+    public EventQueueManager(EventProcessorService eventProcessor, EventQueueManagerErrorHandler errorHandler) {
         this.eventProcessor = eventProcessor;
+        this.errorHandler = errorHandler;
     }
     
     @PostConstruct
@@ -68,11 +71,10 @@ public class EventQueueManager {
                         eventProcessor.process(event);
                     }
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    log.info("Processor for {} interrupted", type);
+                    errorHandler.handleProcessorInterrupted(type, e);
                     break;
                 } catch (Exception e) {
-                    log.error("Error processing event in queue: {}", type, e);
+                    errorHandler.handleProcessorError(type, e);
                 }
             }
             
@@ -80,21 +82,30 @@ public class EventQueueManager {
         });
     }
     
-    public String addEvent(BaseEvent event) {
+    public AddEventResponse addEvent(BaseEvent event) {
+        // Check if system is accepting new events
         if (!acceptingNewEvents.get()) {
-            throw new IllegalStateException("System is shutting down. Not accepting new events.");
+            errorHandler.handleShutdownState(event.getEventId());
         }
         
+        // Get queue for event type
         BlockingQueue<BaseEvent> queue = queues.get(event.getEventType());
-        if (queue == null) {
-            throw new IllegalArgumentException("No queue found for event type: " + event.getEventType());
-        }
-        
-        queue.offer(event);
-        log.info("Event {} added to {} queue. Queue size: {}", 
+        // if (queue == null) {
+        //     return errorHandler.handleInvalidEventType(event.getEventType());
+        // }
+    
+        try {
+            boolean added = queue.offer(event, 5, TimeUnit.SECONDS);
+            if (added) {
+                log.info("Event {} added to {} queue. Queue size: {}", 
                  event.getEventId(), event.getEventType(), queue.size());
-        
-        return event.getEventId();
+                  return new AddEventResponse(event.getEventId());
+            } else {
+                return errorHandler.handleAddEventTimeout(event);
+            }
+        } catch (Exception e) {
+            return errorHandler.handleAddEventException(event, e);
+        } 
     }
     
     @PreDestroy
@@ -117,7 +128,7 @@ public class EventQueueManager {
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                errorHandler.handleShutdownInterrupted(e);
                 break;
             }
         }
@@ -130,8 +141,7 @@ public class EventQueueManager {
                     executor.shutdownNow();
                 }
             } catch (InterruptedException e) {
-                executor.shutdownNow();
-                Thread.currentThread().interrupt();
+                errorHandler.handleExecutorShutdownInterrupted(executor, e);
             }
         });
         
@@ -141,7 +151,11 @@ public class EventQueueManager {
     // For testing purposes
     public int getQueueSize(EventType type) {
         BlockingQueue<BaseEvent> queue = queues.get(type);
-        return queue != null ? queue.size() : 0;
+        if (queue != null) {
+            return queue.size();
+        } else {
+            return errorHandler.handleQueueSizeNotFound(type);
+        }
     }
     
     public boolean isAcceptingNewEvents() {

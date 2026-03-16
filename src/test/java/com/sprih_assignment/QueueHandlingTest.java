@@ -4,19 +4,23 @@
 // import org.springframework.boot.test.context.SpringBootTest;
 
 // import com.sprih_assignment.models.EmailEvent;
-// import com.sprih_assignment.services.EventQueueManager;
+// import com.sprih_assignment.services.eventQueueManagerService.EventQueueManager;
 
 // @SpringBootTest
 // public class QueueHandlingTest {
+//     private EventQueueManager eventQueueManager;
+
+//     QueueHandlingTest(EventQueueManager eventQueueManager){
+//         this.eventQueueManager = eventQueueManager;
+//     }
 
 //     @Test
 //     public void testFIFOOrder() {
-//         EventQueueManager queueManager = new EventQueueManager(mockProcessor);
-        
-//         String eventId1 = queueManager.addEvent(new EmailEvent("url", "a@b.com", "msg1"));
-//         String eventId2 = queueManager.addEvent(new EmailEvent( "url", "a@b.com", "msg2"));
-        
-//         // Verify order (implementation depends on how you expose queues for testing)
-//         // This would need additional test hooks
+//         EmailEvent event_1 = new EmailEvent("http://callback.com", "test@example.com", "Hello");
+//         EmailEvent event_2 = new EmailEvent("http://callback.com", "test@example.com", "Hello");
+//         String eventId_1 = eventQueueManager.addEvent(event_1);
+//         String eventId_2 = eventQueueManager.addEvent(event_2);
+//         System.out.println(eventId_1);
+//         System.out.println(eventId_1);
 //     }
 // }

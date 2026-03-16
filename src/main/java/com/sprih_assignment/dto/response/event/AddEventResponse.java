@@ -1,11 +1,10 @@
-package com.sprih_assignment.dto;
+package com.sprih_assignment.dto.response.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class EventResponse {
+public class AddEventResponse {
     private String eventId;
-    private String message;
 }

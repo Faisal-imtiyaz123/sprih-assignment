@@ -10,7 +10,7 @@ import lombok.Data;
 
 
 @Data
-public abstract class BaseEvent {
+public class BaseEvent {
     private String eventId;
     private EventType eventType;
     private EventStatus status;

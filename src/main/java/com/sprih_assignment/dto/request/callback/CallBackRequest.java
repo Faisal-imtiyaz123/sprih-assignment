@@ -1,4 +1,4 @@
-package com.sprih_assignment.dto;
+package com.sprih_assignment.dto.request.callback;
 
 
 

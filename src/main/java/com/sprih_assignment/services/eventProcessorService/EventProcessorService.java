@@ -1,10 +1,12 @@
-package com.sprih_assignment.services;
+package com.sprih_assignment.services.eventProcessorService;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.sprih_assignment.models.BaseEvent;
+import com.sprih_assignment.services.callBackService.CallBackService;
+import com.sprih_assignment.services.eventProcessorService.error.EventProcessorErrorHandler;
 import com.sprih_assignment.utils.enums.Events.EventStatus;
 import com.sprih_assignment.utils.enums.Events.EventType;
 
@@ -15,10 +17,10 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
-public class EventProcessor {
+public class EventProcessorService {
     
     private static final Random RANDOM = new Random();
-    private static final double FAILURE_RATE = 0.1; // 10% failure rate
+    private static final double FAILURE_RATE = 0.1; 
     
     private static final Map<EventType, Integer> PROCESSING_TIMES = Map.of(
         EventType.EMAIL, 5,
@@ -27,9 +29,11 @@ public class EventProcessor {
     );
     
     private final CallBackService callbackService;
+    private final EventProcessorErrorHandler errorHandler;
     
-    public EventProcessor(CallBackService callbackService) {
+    public EventProcessorService(CallBackService callbackService, EventProcessorErrorHandler errorHandler) {
         this.callbackService = callbackService;
+        this.errorHandler = errorHandler;
     }
     
     public void process(BaseEvent event) {
@@ -37,10 +41,10 @@ public class EventProcessor {
         log.info("Processing event: {} of type: {}", event.getEventId(), event.getEventType());
         
         try {
-            // Get processing time for event type
+
             int processingTime = PROCESSING_TIMES.get(event.getEventType());
             
-            // Simulate processing time
+            log.info("PROCESSING" + event.getEventType() + "event");
             TimeUnit.SECONDS.sleep(processingTime);
             
             // Simulate random failure
@@ -53,20 +57,12 @@ public class EventProcessor {
             log.info("Event {} completed successfully", event.getEventId());
             
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            event.setStatus(EventStatus.FAILED);
-            event.setErrorMessage("Processing interrupted");
-            event.setProcessedAt(Instant.now());
-            log.error("Event {} processing interrupted", event.getEventId());
+            errorHandler.handleInterruptedException(event, e);
             
         } catch (Exception e) {
-            event.setStatus(EventStatus.FAILED);
-            event.setErrorMessage(e.getMessage());
-            event.setProcessedAt(Instant.now());
-            log.error("Event {} failed: {}", event.getEventId(), e.getMessage());
+            errorHandler.handleException(event, e);
         }
-        
         // Send callback notification
-        callbackService.sendCallback(event);
+        // callbackService.sendCallback(event);
     }
 }
