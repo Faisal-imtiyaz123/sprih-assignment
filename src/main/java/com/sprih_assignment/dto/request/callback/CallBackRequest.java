@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.time.Instant;
 
-
 import com.sprih_assignment.utils.enums.Events.EventStatus;
 import com.sprih_assignment.utils.enums.Events.EventType;
 

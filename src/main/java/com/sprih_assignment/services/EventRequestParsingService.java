@@ -1,16 +1,16 @@
-package com.sprih_assignment.services.eventRequestParsingService;
+package com.sprih_assignment.services;
 
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.sprih_assignment.dto.enums.EventDto;
 import com.sprih_assignment.dto.request.event.EventRequest;
-import com.sprih_assignment.exceptions.event.EventException;
 import com.sprih_assignment.models.BaseEvent;
 import com.sprih_assignment.models.EmailEvent;
 import com.sprih_assignment.models.PushEvent;
 import com.sprih_assignment.models.SmsEvent;
+import com.sprih_assignment.utils.enums.EventDto;
+import com.sprih_assignment.utils.exceptions.event.EventException;
 
 
 @Service

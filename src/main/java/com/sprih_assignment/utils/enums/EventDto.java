@@ -1,4 +1,4 @@
-package com.sprih_assignment.dto.enums;
+package com.sprih_assignment.utils.enums;
 
 public interface EventDto {
     String EMAIL_ERROR_MSG = "Missing required fields for EMAIL";

@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
 
-import com.sprih_assignment.services.eventQueueManagerService.EventQueueManager;
+import com.sprih_assignment.services.EventQueueManager;
 
 @Slf4j
 @Component

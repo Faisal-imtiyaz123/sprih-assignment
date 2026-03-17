@@ -1,4 +1,4 @@
-package com.sprih_assignment.services.eventProcessorService.error;
+package com.sprih_assignment.utils.error.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

@@ -1,4 +1,4 @@
-package com.sprih_assignment.services.eventQueueManagerService.error;
+package com.sprih_assignment.utils.error.services;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -7,10 +7,10 @@ import java.util.concurrent.ExecutorService;
 import org.springframework.stereotype.Component;
 
 import com.sprih_assignment.dto.response.event.AddEventResponse;
-import com.sprih_assignment.exceptions.event.EventException;
-import com.sprih_assignment.exceptions.event.EventException.EventErrorMessages;
 import com.sprih_assignment.models.BaseEvent;
 import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
+import com.sprih_assignment.utils.exceptions.event.EventException;
 
 @Slf4j
 @Component
@@ -46,14 +46,14 @@ public class EventQueueManagerErrorHandler {
     }
     
     public AddEventResponse handleAddEventTimeout(BaseEvent event) {
-        String message = EventErrorMessages.QUEUE_TIMEOUT.getErrorMsg() + "for" + event.getEventId();
+        String message = EventErrorMessages.QUEUE_TIMEOUT + "for" + event.getEventId();
         log.error(message);
         throw new EventException(message);
     }
     
     public AddEventResponse handleAddEventException(BaseEvent event, Exception e) {
         log.error("Failed to add event {}: {}", event.getEventId(), e.getMessage());
-        throw new EventException(EventErrorMessages.EVENT_ADD_ERROR.getErrorMsg() + event.getEventId());
+        throw new EventException(EventErrorMessages.EVENT_ADD_ERROR + event.getEventId());
     }
     
     // Shutdown errors

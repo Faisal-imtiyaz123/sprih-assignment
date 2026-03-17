@@ -1,4 +1,4 @@
-package com.sprih_assignment.controllers.eventController.error;
+package com.sprih_assignment.utils.error.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
-
-import com.sprih_assignment.controllers.eventController.EventController;
+import com.sprih_assignment.controllers.EventController;
 import com.sprih_assignment.dto.response.event.EventErrorResponse;
 import com.sprih_assignment.dto.response.event.EventResponse;
 import com.sprih_assignment.dto.response.event.EventErrorResponse.Status;
-import com.sprih_assignment.exceptions.event.EventException;
 import com.sprih_assignment.models.BaseEvent;
 import com.sprih_assignment.models.EventFactory;
 import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.exceptions.event.EventException;
 
 @Slf4j
 @ControllerAdvice(assignableTypes = EventController.class)

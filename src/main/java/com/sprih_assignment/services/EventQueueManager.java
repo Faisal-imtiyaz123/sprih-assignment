@@ -1,4 +1,4 @@
-package com.sprih_assignment.services.eventQueueManagerService;
+package com.sprih_assignment.services;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.sprih_assignment.dto.response.event.AddEventResponse;
 import com.sprih_assignment.models.BaseEvent;
-import com.sprih_assignment.services.eventProcessorService.EventProcessorService;
-import com.sprih_assignment.services.eventQueueManagerService.error.EventQueueManagerErrorHandler;
 import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.error.services.EventQueueManagerErrorHandler;
 
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;

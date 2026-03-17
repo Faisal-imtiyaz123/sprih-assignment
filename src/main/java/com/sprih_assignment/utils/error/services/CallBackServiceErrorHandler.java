@@ -1,4 +1,4 @@
-package com.sprih_assignment.services.callBackService.error;
+package com.sprih_assignment.utils.error.services;
 
 
 

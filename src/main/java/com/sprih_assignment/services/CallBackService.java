@@ -1,4 +1,4 @@
-package com.sprih_assignment.services.callBackService;
+package com.sprih_assignment.services;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.sprih_assignment.dto.request.callback.CallBackRequest;
 import com.sprih_assignment.models.BaseEvent;
-import com.sprih_assignment.services.callBackService.error.CallBackServiceErrorHandler;
+import com.sprih_assignment.utils.error.services.CallBackServiceErrorHandler;
 
 @Slf4j
 @Service

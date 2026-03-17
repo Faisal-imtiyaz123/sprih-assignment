@@ -4,9 +4,9 @@ import lombok.Data;
 
 import java.util.Map;
 
-import com.sprih_assignment.exceptions.event.EventException;
-import com.sprih_assignment.exceptions.event.EventException.EventErrorMessages;
 import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
+import com.sprih_assignment.utils.exceptions.event.EventException;
 
 @Data   
 public class EventRequest {
@@ -23,7 +23,7 @@ public class EventRequest {
         try{
             return EventType.valueOf(eventType);
         }catch(Exception e){      
-            throw new EventException(EventErrorMessages.INVALID_EVENT_TYPE.getErrorMsg() + " " +   eventType);
+            throw new EventException(EventErrorMessages.INVALID_EVENT_TYPE + " " +   eventType);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.sprih_assignment.controllers.eventController;
+package com.sprih_assignment.controllers;
 
 
 import jakarta.validation.Valid;
@@ -10,11 +10,8 @@ import com.sprih_assignment.dto.request.event.EventRequest;
 import com.sprih_assignment.dto.response.event.AddEventResponse;
 import com.sprih_assignment.dto.response.event.EventResponse;
 import com.sprih_assignment.models.BaseEvent;
-
-
-
-import com.sprih_assignment.services.eventQueueManagerService.EventQueueManager;
-import com.sprih_assignment.services.eventRequestParsingService.EventRequestParsingService;
+import com.sprih_assignment.services.EventQueueManager;
+import com.sprih_assignment.services.EventRequestParsingService;
 
 
 

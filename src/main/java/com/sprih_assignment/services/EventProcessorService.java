@@ -1,14 +1,13 @@
-package com.sprih_assignment.services.eventProcessorService;
+package com.sprih_assignment.services;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.sprih_assignment.models.BaseEvent;
-import com.sprih_assignment.services.callBackService.CallBackService;
-import com.sprih_assignment.services.eventProcessorService.error.EventProcessorErrorHandler;
 import com.sprih_assignment.utils.enums.Events.EventStatus;
 import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.error.services.EventProcessorErrorHandler;
 
 import java.time.Instant;
 import java.util.Map;
