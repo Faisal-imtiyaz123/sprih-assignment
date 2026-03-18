@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.sprih_assignment.dto.response.event.AddEventResponse;
 import com.sprih_assignment.models.BaseEvent;
-import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.enums.EventType;
 import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
 import com.sprih_assignment.utils.exceptions.event.EventException;
+
 
 @Slf4j
 @Component

@@ -1,8 +1,10 @@
 package com.sprih_assignment.dto.response.event;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+@Schema(description = "Event Error Response")
 @Data
 @AllArgsConstructor
 

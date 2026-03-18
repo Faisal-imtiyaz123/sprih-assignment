@@ -3,7 +3,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import com.sprih_assignment.models.BaseEvent;
-import com.sprih_assignment.utils.enums.Events.EventStatus;
+import com.sprih_assignment.utils.enums.EventStatus;
 
 import java.time.Instant;
 

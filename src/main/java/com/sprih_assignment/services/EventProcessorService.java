@@ -2,12 +2,16 @@ package com.sprih_assignment.services;
 
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprih_assignment.models.BaseEvent;
-import com.sprih_assignment.utils.enums.Events.EventStatus;
-import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.enums.EventStatus;
+import com.sprih_assignment.utils.enums.EventType;
 import com.sprih_assignment.utils.error.services.EventProcessorErrorHandler;
+import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
+import com.sprih_assignment.utils.exceptions.event.EventException;
 
 import java.time.Instant;
 import java.util.Map;
@@ -28,11 +32,12 @@ public class EventProcessorService {
     );
     
     private final CallBackService callbackService;
-    private final EventProcessorErrorHandler errorHandler;
+
+    @Autowired
+    private EventProcessorErrorHandler errorHandler;
     
-    public EventProcessorService(CallBackService callbackService, EventProcessorErrorHandler errorHandler) {
+    public EventProcessorService(CallBackService callbackService) {
         this.callbackService = callbackService;
-        this.errorHandler = errorHandler;
     }
     
     public void process(BaseEvent event) {
@@ -48,7 +53,7 @@ public class EventProcessorService {
             
             // Simulate random failure
             if (RANDOM.nextDouble() < FAILURE_RATE) {
-                throw new RuntimeException("Simulated processing failure");
+                throw new EventException(EventErrorMessages.PROCESSING_FAILED);
             }
             
             event.setStatus(EventStatus.COMPLETED);
@@ -60,8 +65,9 @@ public class EventProcessorService {
             
         } catch (Exception e) {
             errorHandler.handleException(event, e);
+        }finally{
+            // Send callback notification
+            callbackService.sendCallback(event);
         }
-        // Send callback notification
-        // callbackService.sendCallback(event);
     }
 }

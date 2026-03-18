@@ -4,10 +4,13 @@ import lombok.Data;
 
 import java.util.Map;
 
-import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.enums.EventType;
 import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
 import com.sprih_assignment.utils.exceptions.event.EventException;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Request object for creating a new Event")
 @Data   
 public class EventRequest {
     @NotNull

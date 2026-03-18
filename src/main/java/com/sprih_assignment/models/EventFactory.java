@@ -1,7 +1,8 @@
 package com.sprih_assignment.models;
 
-import com.sprih_assignment.utils.enums.EventDto;
-import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.enums.EventType;
+import com.sprih_assignment.utils.interfaces.EventDto;
+
 
 import lombok.Data;
 

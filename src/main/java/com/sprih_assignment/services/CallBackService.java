@@ -18,6 +18,7 @@ public class CallBackService {
     
     private final RestTemplate restTemplate;
     private final CallBackServiceErrorHandler callBackServiceErrorHandler;
+
     public CallBackService(RestTemplate restTemplate, CallBackServiceErrorHandler callBackServiceErrorHandler) {
         this.restTemplate = restTemplate;
         this.callBackServiceErrorHandler = callBackServiceErrorHandler;
@@ -29,14 +30,19 @@ public class CallBackService {
         callback.setEventType(event.getEventType());
         callback.setStatus(event.getStatus());
         callback.setProcessedAt(event.getProcessedAt());
-        callback.setErrorMessage(event.getErrorMessage());
+        
+        boolean isError = event.getErrorMessage()!=null && !event.getErrorMessage().isEmpty();
+        if(isError){
+            callback.setErrorMessage(event.getErrorMessage());
+        }
         try{
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
                 
             HttpEntity<CallBackRequest> request = new HttpEntity<>(callback, headers);
                 
-            restTemplate.postForEntity(event.getCallbackUrl(), request, String.class);
+            Object res = restTemplate.postForEntity(event.getCallbackUrl(), request, String.class);
+            log.info(res.toString());
             log.info("Callback sent successfully for event: {}", event.getEventId());
         }catch(Exception e){
             callBackServiceErrorHandler.handleException(e);

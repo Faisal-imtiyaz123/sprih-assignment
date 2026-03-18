@@ -3,8 +3,8 @@ package com.sprih_assignment.models;
 import java.time.Instant;
 import java.util.UUID;
 
-import com.sprih_assignment.utils.enums.Events.EventStatus;
-import com.sprih_assignment.utils.enums.Events.EventType;
+import com.sprih_assignment.utils.enums.EventStatus;
+import com.sprih_assignment.utils.enums.EventType;
 
 import lombok.Data;
 
