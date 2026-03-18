@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.sprih_assignment.models.BaseEvent;
 import com.sprih_assignment.models.EmailEvent;
-import com.sprih_assignment.services.CallBackService;
-import com.sprih_assignment.services.EventProcessorService;
+import com.sprih_assignment.services.core.callback.CallBackService;
+import com.sprih_assignment.services.core.events.EventProcessorService;
 import com.sprih_assignment.utils.enums.EventStatus;
 
 public class CallBackServiceTest{
@@ -19,11 +19,12 @@ public class CallBackServiceTest{
     EventProcessorService eventProcessorService;
     @Autowired
     CallBackService callBackService;
+    private final String callBackUrl = "http://localhost:8080/api/mock-callback";
 @Test
 void process_WithSuccess_ShouldSendCallbackWithSuccessStatus() {
     
     // Arrange
-    BaseEvent event = new EmailEvent("http://callback.com", "test@example.com", "Hello");
+    BaseEvent event = new EmailEvent(callBackUrl, "test@example.com", "Hello");
     
     // Act
     eventProcessorService.process(event);
@@ -37,7 +38,7 @@ void process_WithSuccess_ShouldSendCallbackWithSuccessStatus() {
 @Test
 void process_WithFailure_ShouldSendCallbackWithErrorStatus() {
     // Arrange
-    BaseEvent event = new EmailEvent("http://callback.com", "test@example.com", "Hello");
+    BaseEvent event = new EmailEvent(callBackUrl, "test@example.com", "Hello");
     
     // Force failure (you might need to mock RANDOM or use reflection)
     

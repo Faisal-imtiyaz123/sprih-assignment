@@ -22,6 +22,8 @@ public class EventRequest {
     @NotNull
     private String callbackUrl;
 
+    public final static String callBack = "http://localhost:8080/api-mockCallback";
+
     public EventType getEventType(){
         try{
             return EventType.valueOf(eventType);

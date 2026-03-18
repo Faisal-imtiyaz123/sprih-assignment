@@ -1,4 +1,4 @@
-package com.sprih_assignment.services;
+package com.sprih_assignment.services.validation.request;
 
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import com.sprih_assignment.utils.interfaces.EventDto;
 
 @Service
 public class EventRequestParsingService {
-     public BaseEvent createEventFromRequest(EventRequest request) {
+     public static BaseEvent createEventFromRequest(EventRequest request) {
         Map<String, Object> payload = request.getPayload();
         
         switch (request.getEventType()) {

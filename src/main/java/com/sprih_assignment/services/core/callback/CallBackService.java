@@ -1,4 +1,4 @@
-package com.sprih_assignment.services;
+package com.sprih_assignment.services.core.callback;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,26 +26,25 @@ public class CallBackService {
     
     public void sendCallback(BaseEvent event) {
         CallBackRequest callback = new CallBackRequest();
-        callback.setEventId(event.getEventId());
-        callback.setEventType(event.getEventType());
-        callback.setStatus(event.getStatus());
-        callback.setProcessedAt(event.getProcessedAt());
-        
-        boolean isError = event.getErrorMessage()!=null && !event.getErrorMessage().isEmpty();
-        if(isError){
-            callback.setErrorMessage(event.getErrorMessage());
-        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-                
+            callback.setEventId(event.getEventId());
+            callback.setEventType(event.getEventType());
+            callback.setStatus(event.getStatus().name());
+            callback.setProcessedAt(event.getProcessedAt());
+            
+            boolean isError = event.getErrorMessage()!=null && !event.getErrorMessage().isEmpty();
+            if(isError){
+                callback.setErrorMessage(event.getErrorMessage());
+            }
+        }catch(Exception e){
+            callBackServiceErrorHandler.handleException(e,event);
+        }finally{
             HttpEntity<CallBackRequest> request = new HttpEntity<>(callback, headers);
-                
             Object res = restTemplate.postForEntity(event.getCallbackUrl(), request, String.class);
             log.info(res.toString());
             log.info("Callback sent successfully for event: {}", event.getEventId());
-        }catch(Exception e){
-            callBackServiceErrorHandler.handleException(e);
         }
     }
 }

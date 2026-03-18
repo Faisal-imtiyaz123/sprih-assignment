@@ -1,4 +1,4 @@
-package com.sprih_assignment.services;
+package com.sprih_assignment.services.core.events;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;

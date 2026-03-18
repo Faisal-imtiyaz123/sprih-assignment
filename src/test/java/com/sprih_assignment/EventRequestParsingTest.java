@@ -5,7 +5,7 @@ import com.sprih_assignment.models.BaseEvent;
 import com.sprih_assignment.models.EmailEvent;
 import com.sprih_assignment.models.PushEvent;
 import com.sprih_assignment.models.SmsEvent;
-import com.sprih_assignment.services.EventRequestParsingService;
+import com.sprih_assignment.services.validation.request.EventRequestParsingService;
 import com.sprih_assignment.utils.enums.EventType;
 import com.sprih_assignment.utils.exceptions.event.EventException;
 import com.sprih_assignment.utils.interfaces.EventDto;

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.event.ContextClosedEvent;
 
-import com.sprih_assignment.services.EventQueueManager;
+import com.sprih_assignment.services.core.events.EventQueueManager;
 import com.sprih_assignment.utils.shutdown.ShutdownHandler;
 
 import static org.mockito.Mockito.*;

@@ -1,4 +1,4 @@
-package com.sprih_assignment.services;
+package com.sprih_assignment.services.core.events;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sprih_assignment.models.BaseEvent;
+import com.sprih_assignment.services.core.callback.CallBackService;
 import com.sprih_assignment.utils.enums.EventStatus;
 import com.sprih_assignment.utils.enums.EventType;
 import com.sprih_assignment.utils.error.services.EventProcessorErrorHandler;
