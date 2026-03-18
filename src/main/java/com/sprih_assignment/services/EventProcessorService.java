@@ -42,13 +42,13 @@ public class EventProcessorService {
     
     public void process(BaseEvent event) {
         event.setStatus(EventStatus.PROCESSING);
-        log.info("Processing event: {} of type: {}", event.getEventId(), event.getEventType());
+        log.info("PROCESSING EVENT: {} OF TYPE: {}", event.getEventId(), event.getEventType());
         
         try {
 
             int processingTime = PROCESSING_TIMES.get(event.getEventType());
             
-            log.info("PROCESSING" + event.getEventType() + "event");
+            log.info("PROCESSING {} EVENT",event.getEventType());
             TimeUnit.SECONDS.sleep(processingTime);
             
             // Simulate random failure
