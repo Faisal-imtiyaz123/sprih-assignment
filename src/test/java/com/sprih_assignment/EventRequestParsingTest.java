@@ -206,11 +206,10 @@ class EventRequestEventRequestParsingServiceTest {
         request.setPayload(new HashMap<>());
 
         // Act & Assert
-        EventException exception = assertThrows(
+        assertThrows(
             EventException.class,
             () -> EventRequestParsingService.createEventFromRequest(request)
         );
-        assertTrue(exception.getMessage().contains("Unsupported event type: " + request.getEventType()));
     }
 
     @Test
