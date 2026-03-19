@@ -15,6 +15,9 @@ import com.sprih_assignment.services.validation.request.EventRequestParsingServi
 import com.sprih_assignment.utils.enums.EventType;
 import com.sprih_assignment.utils.enums.EventStatus;
 import com.sprih_assignment.utils.exceptions.event.EventException;
+
+import ch.qos.logback.core.status.OnConsoleStatusListener;
+
 import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +48,7 @@ class EventControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     // ✅ CORRECT: Use @MockitoBean for all dependencies
     @MockitoBean
