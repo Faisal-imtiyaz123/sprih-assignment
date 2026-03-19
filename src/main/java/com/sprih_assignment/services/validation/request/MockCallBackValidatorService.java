@@ -8,7 +8,9 @@ import com.sprih_assignment.utils.exceptions.callBack.CallBackExceptionMessages;
 
 @Service
 public class MockCallBackValidatorService {
-    
+    public static void validateAll(CallBackRequest callBackRequest){
+        validate(callBackRequest);
+    }
     public static void validate(CallBackRequest callback){
         boolean isStatusValid = callback.hasValidStatus();
         if(!isStatusValid)throw new CallBackException(CallBackExceptionMessages.INVALID_STATUS,callback);

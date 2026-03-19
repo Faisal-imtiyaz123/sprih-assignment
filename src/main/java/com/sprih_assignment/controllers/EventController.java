@@ -49,7 +49,7 @@ public class EventController {
 
     @PostMapping("/mock-callback")
     public ResponseEntity<?> mockCallbackResponse(@Valid @RequestBody CallBackRequest request) {
-        MockCallBackValidatorService.validate(request);
+        MockCallBackValidatorService.validateAll(request);
         return ResponseEntity.ok(request);
     }
     
