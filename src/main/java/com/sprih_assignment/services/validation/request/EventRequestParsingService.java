@@ -9,15 +9,17 @@ import com.sprih_assignment.models.BaseEvent;
 import com.sprih_assignment.models.EmailEvent;
 import com.sprih_assignment.models.PushEvent;
 import com.sprih_assignment.models.SmsEvent;
+import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
 import com.sprih_assignment.utils.exceptions.event.EventException;
 import com.sprih_assignment.utils.interfaces.EventDto;
 
 
 @Service
 public class EventRequestParsingService {
+
      public static BaseEvent createEventFromRequest(EventRequest request) {
         Map<String, Object> payload = request.getPayload();
-        
+        if(payload==null)throw new EventException(EventErrorMessages.NULL_PAYLOAD);
         switch (request.getEventType()) {
             case EMAIL:
                 String recipient = (String) payload.get("recipient");

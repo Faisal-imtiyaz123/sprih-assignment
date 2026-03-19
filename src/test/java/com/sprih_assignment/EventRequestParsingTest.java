@@ -7,6 +7,7 @@ import com.sprih_assignment.models.PushEvent;
 import com.sprih_assignment.models.SmsEvent;
 import com.sprih_assignment.services.validation.request.EventRequestParsingService;
 import com.sprih_assignment.utils.enums.EventType;
+import com.sprih_assignment.utils.exceptions.event.EventErrorMessages;
 import com.sprih_assignment.utils.exceptions.event.EventException;
 import com.sprih_assignment.utils.interfaces.EventDto;
 
@@ -28,14 +29,8 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class EventRequestParsingServiceTest {
+class EventRequestEventRequestParsingServiceTest {
 
-    private EventRequestParsingService parsingService;
-
-    @BeforeEach
-    void setUp() {
-        parsingService = new EventRequestParsingService();
-    }
 
     @Test
     void createEventFromRequest_WithValidEmailRequest_ShouldReturnEmailEvent() {
@@ -47,7 +42,7 @@ class EventRequestParsingServiceTest {
         );
 
         // Act
-        BaseEvent result = parsingService.createEventFromRequest(request);
+        BaseEvent result = EventRequestParsingService.createEventFromRequest(request);
 
         // Assert
         assertNotNull(result);
@@ -68,7 +63,7 @@ class EventRequestParsingServiceTest {
         );
 
         // Act
-        BaseEvent result = parsingService.createEventFromRequest(request);
+        BaseEvent result = EventRequestParsingService.createEventFromRequest(request);
 
         // Assert
         assertNotNull(result);
@@ -89,7 +84,7 @@ class EventRequestParsingServiceTest {
         );
 
         // Act
-        BaseEvent result = parsingService.createEventFromRequest(request);
+        BaseEvent result = EventRequestParsingService.createEventFromRequest(request);
 
         // Assert
         assertNotNull(result);
@@ -112,7 +107,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.EMAIL_ERROR_MSG, exception.getMessage());
     }
@@ -129,7 +124,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.EMAIL_ERROR_MSG, exception.getMessage());
     }
@@ -146,7 +141,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.SMS_ERROR_MSG, exception.getMessage());
     }
@@ -163,7 +158,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.SMS_ERROR_MSG, exception.getMessage());
     }
@@ -180,7 +175,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.PUSH_ERROR_MSG, exception.getMessage());
     }
@@ -197,7 +192,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.PUSH_ERROR_MSG, exception.getMessage());
     }
@@ -213,9 +208,9 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
-        assertTrue(exception.getMessage().contains("Unsupported event type"));
+        assertTrue(exception.getMessage().contains("Unsupported event type: " + request.getEventType()));
     }
 
     @Test
@@ -227,11 +222,11 @@ class EventRequestParsingServiceTest {
         request.setPayload(null); // Null payload
 
         // Act & Assert
-        EventException exception = assertThrows(
+        EventException ex= assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
-        assertEquals(EventDto.EMAIL_ERROR_MSG, exception.getMessage());
+        assertEquals(ex.getLocalizedMessage(),EventErrorMessages.NULL_PAYLOAD);
     }
 
     @Test
@@ -245,7 +240,7 @@ class EventRequestParsingServiceTest {
         // Act & Assert
         EventException exception = assertThrows(
             EventException.class,
-            () -> parsingService.createEventFromRequest(request)
+            () -> EventRequestParsingService.createEventFromRequest(request)
         );
         assertEquals(EventDto.EMAIL_ERROR_MSG, exception.getMessage());
     }
@@ -264,13 +259,13 @@ class EventRequestParsingServiceTest {
 
         // Act & Assert
         if (shouldSucceed) {
-            BaseEvent result = parsingService.createEventFromRequest(request);
+            BaseEvent result = EventRequestParsingService.createEventFromRequest(request);
             assertNotNull(result);
             assertTrue(result instanceof EmailEvent);
         } else {
             assertThrows(
                 EventException.class,
-                () -> parsingService.createEventFromRequest(request)
+                () -> EventRequestParsingService.createEventFromRequest(request)
             );
         }
     }

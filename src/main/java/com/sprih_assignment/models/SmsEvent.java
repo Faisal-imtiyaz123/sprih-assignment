@@ -1,6 +1,4 @@
 package com.sprih_assignment.models;
-
-
 import com.sprih_assignment.utils.enums.EventType;
 
 import lombok.Getter;

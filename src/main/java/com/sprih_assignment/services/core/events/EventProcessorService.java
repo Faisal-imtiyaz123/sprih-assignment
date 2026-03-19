@@ -1,6 +1,7 @@
 package com.sprih_assignment.services.core.events;
 
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,12 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
+@Setter
 public class EventProcessorService {
     
     private static final Random RANDOM = new Random();
-    private static final double FAILURE_RATE = 0.1; 
+    private static final double FAILURE_RATE = 0.1;
+    private boolean forceEventFail = false; 
     
     private static final Map<EventType, Integer> PROCESSING_TIMES = Map.of(
         EventType.EMAIL, 5,
@@ -44,9 +47,10 @@ public class EventProcessorService {
     public void process(BaseEvent event) {
         event.setStatus(EventStatus.PROCESSING);
         log.info("PROCESSING EVENT: {} OF TYPE: {}", event.getEventId(), event.getEventType());
-        
         try {
-
+            if(forceEventFail==true){
+                throw new EventException(EventErrorMessages.PROCESSING_FAILED);
+            }
             int processingTime = PROCESSING_TIMES.get(event.getEventType());
             
             log.info("PROCESSING {} EVENT",event.getEventType());
