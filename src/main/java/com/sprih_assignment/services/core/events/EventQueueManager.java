@@ -134,14 +134,14 @@ public class EventQueueManager {
         }
         
         // Shutdown executors
-        executors.values().forEach(executor -> {
-            executor.shutdown();
+        executors.values().forEach(executorService -> {
+            executorService.shutdown();
             try {
-                if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
-                    executor.shutdownNow();
+                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                    executorService.shutdownNow();
                 }
             } catch (InterruptedException e) {
-                errorHandler.handleExecutorShutdownInterrupted(executor, e);
+                errorHandler.handleExecutorShutdownInterrupted(executorService, e);
             }
         });
         

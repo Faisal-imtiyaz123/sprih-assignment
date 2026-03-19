@@ -21,7 +21,12 @@ public class ShutdownHandler implements ApplicationListener<ContextClosedEvent> 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
         log.info("Received shutdown signal. Initiating graceful shutdown...");
-        queueManager.shutdown();
-        log.info("Shutdown handler completed.");
+        
+        try {
+            queueManager.shutdown();
+            log.info("Shutdown completed successfully.");
+        } catch (Exception e) {
+            log.error("Error during shutdown: {}", e.getMessage(), e);
+        }
     }
 }
