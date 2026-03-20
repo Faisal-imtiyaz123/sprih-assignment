@@ -53,6 +53,6 @@ class GracefulShutdownTest {
 
     @Nested
     class IntegrationTests {
-        // Add Spring integration tests here
+
     }
 }

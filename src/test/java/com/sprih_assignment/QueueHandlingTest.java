@@ -9,8 +9,6 @@ import com.sprih_assignment.services.core.events.EventQueueManager;
 import com.sprih_assignment.utils.enums.EventType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -187,62 +185,7 @@ public class QueueHandlingTest {
             "FIFO order should be preserved even with varying processing times");
     }
 
-    // @Test
-    // void testFIFOOrder_WithQueueFull() {
-    //     // Arrange
-    //     int queueSize = eventQueueManager.getQueueSize(EventType.EMAIL);
-        
-    //     // Act & Assert - Add more events than queue capacity
-    //     assertThrows(RuntimeException.class, () -> {
-    //         for (int i = 0; i <= queueSize+1; i++) {
-    //             EmailEvent event = new EmailEvent(
-    //                 "http://callback.com", 
-    //                 "test@example.com", 
-    //                 "Message " + i
-    //             );
-    //             eventQueueManager.addEvent(event);
-    //         }
-    //     });
-    // }
-
-    // @Test
-    // void testFIFOOrder_WithMixedSuccessAndFailure() throws InterruptedException {
-    //     // Arrange
-    //     latch = new CountDownLatch(4);
-    //     List<String> completedOrder = new ArrayList<>();
-    //     List<String> failedEvents = new ArrayList<>();
-        
-    //     doAnswer(invocation -> {
-    //         BaseEvent event = invocation.getArgument(0);
-    //         if (event.getEventId().contains("fail")) {
-    //             failedEvents.add(event.getEventId());
-    //             throw new RuntimeException("Simulated failure");
-    //         }
-    //         completedOrder.add(event.getEventId());
-    //         latch.countDown();
-    //         return null;
-    //     }).when(eventProcessorService).process(any(BaseEvent.class));
-
-    //     // Act
-    //     EmailEvent event1 = new EmailEvent("http://callback.com", "success1@test.com", "Success 1");
-    //     EmailEvent event2 = new EmailEvent("http://callback.com", "fail@test.com", "Fail");
-    //     EmailEvent event3 = new EmailEvent("http://callback.com", "success2@test.com", "Success 2");
-    //     EmailEvent event4 = new EmailEvent("http://callback.com", "success3@test.com", "Success 3");
-        
-    //     String id1 = eventQueueManager.addEvent(event1).getEventId();
-    //     String id2 = eventQueueManager.addEvent(event2).getEventId();
-    //     String id3 = eventQueueManager.addEvent(event3).getEventId();
-    //     String id4 = eventQueueManager.addEvent(event4).getEventId();
-
-    //     // Wait for processing
-    //     Thread.sleep(2000); // Wait for failures to be handled
-
-    //     // Assert
-    //     assertTrue(failedEvents.contains(id2), "Event 2 should have failed");
-    //     assertEquals(List.of(id1, id3, id4), completedOrder,
-    //         "Successful events should maintain order despite failures");
-    // }
-
+   
     @Test
     void testFIFOOrder_WithEmptyQueue() {
         // Act
