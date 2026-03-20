@@ -2,7 +2,6 @@ package com.sprih_assignment.dto.request.callback;
 
 
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

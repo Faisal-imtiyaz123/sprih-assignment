@@ -1,4 +1,4 @@
-target/
+# target/
 *.log
 *.md
 .git
@@ -27,5 +27,5 @@ README.md
 **/.project
 **/.factorypath
 **/.springBeans
-**/target/
+# **/target/
 **/test-classes/
